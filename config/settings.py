@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z7p%*z-!*#)0hgp%mg-*1ul!idc&8xb89on_=i2k(($j^fruf%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['52.79.61.187']
 
 
 # Application definition
@@ -129,28 +129,5 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-
-
-AWS_ACCESS_KEY_ID='AKIAVIK45ZDBPXMV4MGL'
-AWS_SECRET_ACCESS_KEY= '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'
-AWS_STORAGE_BUCKET_NAME ='linst-s3'
-AWS_S3_CUSTOM_DOMAIN  = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-
-AWS_S3_FILE_OVERWRITE = True
-AWS_LOCATION ='static'
-AWS_QUERYSTRING_AUTH = False
-AWS_HEADERS = {
-    'Access-Control-Allow-Origin': '*',
-}
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE  = 'storages.backends.s3boto3.S3StaticStorage'
-
-STATIC_URL  = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
