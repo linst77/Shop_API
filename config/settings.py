@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z7p%*z-!*#)0hgp%mg-*1ul!idc&8xb89on_=i2k(($j^fruf%'
+SECRET_KEY = 'django-insecure-#ob0b#b2diimux&*r#tb5%8(ji9=p5o(^=7_z^ope%t144y@w^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['52.79.61.187']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,10 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'shopify'
+    'storages',
+    'corsheaders',
+    'users',
+    'setups',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +55,21 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_SERIALIZER_CLASS': {
+        'full.path.to.CustomPaginationSerializer',
+    },
+}
+CORS_ORIGIN_ALLOW_ALL = True
+
+#CORS_ORIGIN_WHITELIST = (
+#    "https://example.com",
+#    "https://sub.example.com",
+#    "http://localhost:8080",
+#    "http://127.0.0.1:9000"
+#)
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -72,11 +91,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_SERIALIZER_CLASS': {
-        'full.path.to.CustomPaginationSerializer',
-    }
-}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -123,11 +137,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]

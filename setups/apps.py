@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ShopifyConfig(AppConfig):
+class SetupsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'shopify'
+    name = 'setups'
