@@ -28,4 +28,4 @@ class ProductType( models.Model):
     parts = models.CharField( max_length=500, null=True, blank=True)
 
     def __str__( self):
-        return self.product_type + ": " + str( self.id)
+        return self.product_title + ": " + str( self.id)
