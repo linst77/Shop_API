@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#ob0b#b2diimux&*r#tb5%8(ji9=p5o(^=7_z^ope%t144y@w^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -63,12 +63,12 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 
-#CORS_ORIGIN_WHITELIST = (
-#    "https://example.com",
-#    "https://sub.example.com",
+CORS_ORIGIN_WHITELIST = (
+    "https://linst77jung.com/",
+    "https://linst77777.myshopify.com/",
 #    "http://localhost:8080",
 #    "http://127.0.0.1:9000"
-#)
+)
 
 
 ROOT_URLCONF = 'config.urls'
