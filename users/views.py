@@ -23,7 +23,7 @@ class UserVerifyView( viewsets.ModelViewSet):
             "phone": request.data.get('phone'),
             "first_name" : request.data.get('first_name'),
             "last_name": request.data.get('last_name'),
-            "addresses" : request.data.get('addresses'),
+            "addresses" : str( request.data.get('addresses')),
             "shopify_id": request.data.get('id'),
             "currency" : request.data.get('currency')
         }
