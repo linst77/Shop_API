@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import UserVerifyModel, OrderModel
-from .serializer import UserVerifyModelSerializer,OrderModelSerializer
-from datetime import datetime
+from .models import UserVerifyModel, ProfileModel, OrderModel
+from setups.models import ProductType
+from .serializer import UserVerifyModelSerializer, ProfileModelSerializer, OrderModelSerializer
+from django.http import HttpResponse
 from rest_framework import viewsets, generics
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
@@ -44,10 +45,11 @@ class OrderView( viewsets.ModelViewSet):
     def make_order( self, request):
         customer_data = request.data.get("customer")
         customer = UserVerifyModel.objects.get(email=customer_data.get("email"))
+
         items = request.data.get("line_items")
         user_data = {
                         "product_title": None,
-                        "product_id": None,
+                        "product": None,
                         "order_number": request.data.get("order_number"),
                         "status": 1,
                         "email": customer.id,
@@ -56,18 +58,31 @@ class OrderView( viewsets.ModelViewSet):
                         "last_name": customer_data.get("last_name"),
                         "date": request.data.get("created_at"),
                      }
-
         values = []
-        for i in items:
-            user_data["product_title"] = i.get("title")
-            user_data["product_id"] = i.get("product_id")
 
-            serializer = self.serializer_class(data=user_data)
-            if serializer.is_valid():
-                serializer.save()
-                values.append( serializer.data)
+        for i in items:
+            for j in range( i.get("quantity")):
+                try:
+                    product_item = ProductType.objects.get(product_id=i.get("product_id"))
+                    user_data["product_title"] = product_item.product_title
+                    user_data["product"] = product_item.id
+
+                    serializer = self.serializer_class(data=user_data)
+                    if serializer.is_valid():
+                        serializer.save()
+                        values.append(serializer.data)
+                except:
+                    pass
 
         if len(values) > 1:
             return Response(values, status=201)
-        else:
+        elif len(values) == 1:
             return Response(values[0], status=201)
+        else:
+            return HttpResponse(status=404)
+
+
+class ProfileView( viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = ProfileModelSerializer
+    queryset = ProfileModel.objects.all()
