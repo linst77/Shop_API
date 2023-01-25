@@ -96,7 +96,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbmaster',
+        'USER': 'linstadmin',
+        'PASSWORD': 'linstadmin1234',
+        'HOST': 'ls-8d4648e9ccb6288df1a7599160402294c51eed9e.c9moiqwv5ama.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
+
+# Local Postgres
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -107,8 +120,9 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+'''
 
-
+# Local SQLite
 '''
 DATABASES = {
     'default': {
