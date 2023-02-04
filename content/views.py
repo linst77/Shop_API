@@ -42,3 +42,12 @@ class ContentModelView( viewsets.ModelViewSet):
 
         return JsonResponse(serializer.data)
         # return JsonResponse(user_infor, safe=False)
+
+    @action(detail=True, methods=['PATCH'], url_path='cur-content')
+    def patch_content( self, request, pk=None):
+        temp = ContentModel.objects.get(id=pk)
+        temp.sub_title = request.data.get("sub_title")
+        patch_update = [temp]
+        ContentModel.objects.bulk_update( patch_update, ['sub_title'])
+        serialize = self.serializer_class( temp, many=False)
+        return JsonResponse(serialize.data)
