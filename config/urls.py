@@ -18,13 +18,16 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.routers import DefaultRouter
-from users.views import UserVerifyView, ProfileView, OrderView
+from users.views import UserVerifyView, ProfileView, OrderView, ShopifyView, ShopifyUserProfile, ShopifyUserFiles
 from setups.views import ProductTypeView
 from content.views import FileModelView, ContentModelView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('shopify/', ShopifyView.as_view(), name='shopify_api'),
+    path('shopify-profile/<int:pk>/', ShopifyUserProfile.as_view(), name="shopify-profile_api"),
+    path('shopify-files/<int:pk>/<int:pk2>/', ShopifyUserFiles.as_view(), name="shopify-file_api"),
 ]
 
 if settings.DEBUG:
@@ -38,5 +41,4 @@ router.register('profile', ProfileView, basename='profile_api')
 router.register('product', ProductTypeView, basename='product_api')
 router.register('files', FileModelView, basename='files_api')
 router.register('content', ContentModelView, basename='content_api')
-
 urlpatterns += router.urls

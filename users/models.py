@@ -46,7 +46,7 @@ class OrderModel(models.Model):
     first_name = models.CharField(max_length=200, blank=True, null=True)
     last_name = models.CharField(max_length=200, blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
-    # created = models.DateTimeField( auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.id) + ":" + str(self.order_number)
@@ -60,7 +60,7 @@ class ProfileModel( models.Model):
 
     ### Login info ###
     email = models.ForeignKey( UserVerifyModel, on_delete=models.CASCADE, related_name="ProfileModel", blank=True, null=True)
-    phone = models.IntegerField( blank=True, null=True)
+    phone = models.CharField( max_length=200, blank=True, null=True)
 
     ### User Information
     first_name = models.CharField( max_length=200, blank=True, null=True)
@@ -74,7 +74,7 @@ class ProfileModel( models.Model):
     event_date = models.CharField( max_length=200, blank=True, null=True)
 
     ### product type
-    order = models.ForeignKey( OrderModel,  on_delete=models.CASCADE, blank=True, null=True, related_name="ProfileModel")
+    order = models.ForeignKey( OrderModel,  on_delete=models.CASCADE, blank=True, null=True, related_name="ProfileModel_order")
     product = models.ForeignKey( ProductType, on_delete=models.CASCADE, blank=True, null=True, related_name="ProfileModel_product")
 
     ### process steps

@@ -27,7 +27,6 @@ class FileModel( models.Model):
     items = models.IntegerField(null=True, blank=True)
     orders = models.IntegerField(null=True, blank=True)
     counts = models.IntegerField(null=True, blank=True)
-    created = models.DateTimeField( auto_now_add=True)
 
     def __str__(self):
         return str( self.product)
