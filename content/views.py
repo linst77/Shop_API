@@ -37,7 +37,7 @@ class ContentModelView( viewsets.ModelViewSet):
     @action(detail=True, methods=['GET'], url_path='context')
     def make_order(self, request, pk):
 
-        object = self.queryset.get(id = pk)
+        object = self.queryset.get(order_id = pk)
         serializer = self.serializer_class( object, many=False)
 
         return JsonResponse(serializer.data)

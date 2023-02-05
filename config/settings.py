@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#ob0b#b2diimux&*r#tb5%8(ji9=p5o(^=7_z^ope%t144y@w^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -110,31 +110,30 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'dbmaster',
-#        'USER': 'linstadmin',
-#        'PASSWORD': 'linstadmin1234',
-#        'HOST': 'ls-d4ab60b089f162f1d161b5f1d06fc12f3ce6585b.c9moiqwv5ama.ap-northeast-2.rds.amazonaws.com',
-#        'PORT': '5432',
-#    }
-#}
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'dbmaster',
+       'USER': 'linstadmin',
+       'PASSWORD': 'linstadmin1234',
+       'HOST': 'ls-d4ab60b089f162f1d161b5f1d06fc12f3ce6585b.c9moiqwv5ama.ap-northeast-2.rds.amazonaws.com',
+       'PORT': '5432',
+   }
+}
 
 
 # Local Postgres
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shop_003',
-        'USER': 'postgres',
-        'PASSWORD': 'admin1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'shop_002',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin1234',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Local SQLite
 '''

@@ -107,23 +107,6 @@ class ProfileView( viewsets.ModelViewSet):
         user_infor.append( current_product.data)
 
         return JsonResponse(user_infor, safe=False)
-    '''
-    @action(detail=True, methods=['PATCH'], url_path='edit')
-    def patch_profile( self, request, pk):
-
-        user_queryset = ProfileModel.objects.get( id = pk)
-        serializer = ProfileModelSerializer( user_queryset, data=request.data, partial=True)
-        print(serializer.__dict__)
-
-        if serializer.is_valid():
-            serializer.save()
-            print ("working")
-            print(serializer.data)
-            return JsonResponse(data=serializer.data, many=False)
-        else:
-            print ("not working")
-            return HttpResponse(status=500)
-    '''
 
 class ShopifyView( generics.GenericAPIView):
     permission_classes = [AllowAny]
