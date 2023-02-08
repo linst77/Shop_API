@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import UserVerifyModel, ProfileModel, OrderModel
 from setups.models import ProductType
 from content.models import FileModel
@@ -12,7 +11,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+import urllib, requests, imutils
+from django.core.files.base import ContentFile
+import cv2, uuid
+import numpy as np
+from django.conf import settings
 
 # Create your views here.
 class UserVerifyView( viewsets.ModelViewSet):
@@ -147,6 +150,7 @@ class ShopifyUserProfile( APIView):
 class ShopifyUserFiles( APIView):
 
     def get(self, request, pk, pk2):
+        pk2 = int(pk2)
         user_order = OrderModel.objects.get( id=pk)
         user_product = ProductType.objects.get( id=pk2)
 
@@ -162,5 +166,43 @@ class ShopifyUserFiles( APIView):
 
             return Response (tuple(return_value))
         return HttpResponse( status=404)
+
+    def put(self, request, pk, pk2):
+        pk2 = int(pk2)
+        objects = FileModel.objects.get(id=pk)
+        url = str(settings.STATIC_URL + objects.files.name)
+        resp = urllib.parse.quote(url)
+
+        image_nparray = np.asarray(bytearray(requests.get(url).content), dtype=np.uint8)
+        image = cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
+
+        # rotation of image
+        if pk2 != 0:
+            image = imutils.rotate_bound(image, pk2)
+
+
+        # decode str to unicode
+        x = int(request.data.get("left"))
+        y = int(request.data.get("top"))
+        width = int(request.data.get("width"))
+        height = int(request.data.get("height"))
+
+        # y:height, x:width
+        image_edited = image[y: y + height,
+              x: x + width]
+
+        # file name and extension
+        unique_filename = str(uuid.uuid4())
+        extention = '.jpg'
+
+        ret, buf = cv2.imencode(extention, image_edited)
+        content = ContentFile(buf.tobytes())
+        objects.files.save(unique_filename + extention, content)
+        serializer = FileModelSerializer(objects, many=False)
+        del (content, image_edited, ret, buf, image)
+        return JsonResponse(serializer.data)
+
+
+
 
 

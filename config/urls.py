@@ -27,7 +27,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('shopify/', ShopifyView.as_view(), name='shopify_api'),
     path('shopify-profile/<int:pk>/', ShopifyUserProfile.as_view(), name="shopify-profile_api"),
-    path('shopify-files/<int:pk>/<int:pk2>/', ShopifyUserFiles.as_view(), name="shopify-file_api"),
+    path('shopify-files/<int:pk>/<str:pk2>/', ShopifyUserFiles.as_view(), name="shopify-file_api"),
 ]
 
 if settings.DEBUG:

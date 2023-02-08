@@ -27,6 +27,14 @@ class FileModelView( viewsets.ModelViewSet):
         FileModel.objects.bulk_update(update, ['orders'])
         return JsonResponse({"Works": "test"})
 
+    '''
+    @action(detail=True, methods=['PUT'], url_path='eachupload')
+    def each_upload(self, request, pk):
+        print ( request.POST.__dict__)
+        print ( pk)
+
+        return JsonResponse({"Works": "test"})
+    '''
 
 # Create your views here.
 class ContentModelView( viewsets.ModelViewSet):
