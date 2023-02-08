@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#ob0b#b2diimux&*r#tb5%8(ji9=p5o(^=7_z^ope%t144y@w^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -110,7 +110,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-'''
+
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
@@ -121,10 +121,10 @@ DATABASES = {
        'PORT': '5432',
    }
 }
-'''
+
 
 # Local Postgres
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -135,7 +135,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
+'''
 # Local SQLite
 '''
 DATABASES = {
