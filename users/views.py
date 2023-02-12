@@ -184,7 +184,7 @@ class ShopifyUserProfile( APIView):
             shopify_order_id = "None"
 
         unique_filename = (user_id+"_"+django_order_id+"_"+shopify_order_id + ".json")
-        read = json.dumps( user_data)
+        read = json.dumps( user_data, indent=4)
         txt = ContentFile( read.encode(('utf-8')))
         order.order_json.save( unique_filename, txt)
 
