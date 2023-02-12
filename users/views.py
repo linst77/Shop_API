@@ -1,7 +1,7 @@
 from .models import UserVerifyModel, ProfileModel, OrderModel
 from setups.models import ProductType
-from content.models import FileModel
-from content.serializer import FileModelSerializer
+from content.models import FileModel, ContentModel
+from content.serializer import FileModelSerializer, ContentModelSerializer
 from .serializer import UserVerifyModelSerializer, ProfileModelSerializer, OrderModelSerializer
 from setups.serializer import ProductTypeSerializer
 from django.http import HttpResponse
@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from django.http import JsonResponse
 import urllib, requests, imutils
 from django.core.files.base import ContentFile
-import cv2, uuid
+import cv2, uuid, os, json, io
 import numpy as np
 from django.conf import settings
 
@@ -147,6 +147,55 @@ class ShopifyUserProfile( APIView):
 
         return HttpResponse(status=404)
 
+    def get(self, request, pk, *args, **kwargs):
+        user_data = {}
+        order = OrderModel.objects.get( id=pk)
+        order_serializer = OrderModelSerializer( order, many=False)
+        content = ContentModel.objects.get(order_id=pk)
+        content_serializer = ContentModelSerializer(content, many=False)
+        profile = ProfileModel.objects.get(order_id=pk)
+        profile_serializer = ProfileModelSerializer(profile, many=False)
+        user = UserVerifyModel.objects.get(id=content_serializer.data.get("email"))
+        user_serializer = UserVerifyModelSerializer(user, many=False)
+        ### files used
+        files = {}
+        for i in range( 15):
+            temp =  eval( "content.photo_" + str( i) + ".all()")
+            if len( temp) != 0:
+                temp2 =  FileModelSerializer(temp, many=True)
+                files["photo_" + str(i)] = temp2.data
+
+
+        user_data["order"] = order_serializer.data
+        user_data["user"] = user_serializer.data
+        user_data["profile"] = profile_serializer.data
+        user_data["content"] = content_serializer.data
+        user_data['download'] = files
+
+
+        ### json file save to order model
+        try:
+            user_id = str( user.id)
+            django_order_id = str( pk)
+            shopify_order_id = str( order.order_number)
+        except:
+            user_id = "None"
+            django_order_id = "None"
+            shopify_order_id = "None"
+
+        unique_filename = (user_id+"_"+django_order_id+"_"+shopify_order_id + ".json")
+        read = json.dumps( user_data)
+        txt = ContentFile( read.encode(('utf-8')))
+        order.order_json.save( unique_filename, txt)
+
+        return JsonResponse({"works": "test"})
+
+
+
+
+
+
+
 class ShopifyUserFiles( APIView):
 
     def get(self, request, pk, pk2):
@@ -199,8 +248,10 @@ class ShopifyUserFiles( APIView):
         content = ContentFile(buf.tobytes())
         objects.files.save(unique_filename + extention, content)
         serializer = FileModelSerializer(objects, many=False)
-        del (content, image_edited, ret, buf, image)
+        del (content, image_edited, ret, buf, image, image_nparray)
         return JsonResponse(serializer.data)
+
+
 
 
 
