@@ -25,9 +25,9 @@ class UserVerifyModel(models.Model):
 # order status
 
 STATUS_CHOICES = (
-    (1, 'Waiting to start'),
-    (2, 'Profile'),
-    (3, 'Content'),
+    (1, 'Profile'),
+    (2, 'Content'),
+    (3, 'Waiting to start'),
     (4, 'Process'),
     (5, 'Review'),
     (6, 'Retake'),
@@ -52,13 +52,11 @@ class OrderModel(models.Model):
     date = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     order_json = models.FileField(upload_to=file_path, blank=True, null=True)
-
+    preview = models.URLField(  max_length=200, blank=True, null=True)
+    finalview = models.URLField( max_length=200, blank=True, null=True)
 
     def __str__(self):
         return str(self.id) + ":" + str(self.order_number)
-
-
-
 
 class ProfileModel( models.Model):
 
@@ -84,8 +82,7 @@ class ProfileModel( models.Model):
     product = models.ForeignKey( ProductType, on_delete=models.CASCADE, blank=True, null=True, related_name="ProfileModel_product")
 
     ### process steps
-    preview = models.URLField(  max_length=200, blank=True, null=True)
-    finalview = models.URLField( max_length=200, blank=True, null=True)
+
 
     ## extra
     extra_info = models.TextField(blank=True, null=True)
