@@ -139,17 +139,30 @@ class ShopifyView( generics.GenericAPIView):
 class ShopifyUserProfile( APIView):
 
     def put(self, request, pk, *args, **kwargs):
+        print ( pk )
         profile_object = ProfileModel.objects.get(id=pk)
         serializer = ProfileModelSerializer( profile_object, data =request.data)
+
+        order_object = OrderModel.objects.get( id = profile_object.order_id)
+        order_object.status = 2
+        order_object.save()
+        order_serializer = OrderModelSerializer( order_object)
+
+        return_values = []
+        return_values.append( order_serializer.data)
+
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(data=serializer.data)
+            return_values.append( serializer.data)
 
+            return JsonResponse(data=return_values, safe=False)
         return HttpResponse(status=404)
 
     def get(self, request, pk, *args, **kwargs):
         user_data = {}
         order = OrderModel.objects.get( id=pk)
+        order.status = 3
+        order.save()
         order_serializer = OrderModelSerializer( order, many=False)
         content = ContentModel.objects.get(order_id=pk)
         content_serializer = ContentModelSerializer(content, many=False)
@@ -172,7 +185,6 @@ class ShopifyUserProfile( APIView):
         user_data["content"] = content_serializer.data
         user_data['download'] = files
 
-
         ### json file save to order model
         try:
             user_id = str( user.id)
@@ -188,12 +200,7 @@ class ShopifyUserProfile( APIView):
         txt = ContentFile( read.encode(('utf-8')))
         order.order_json.save( unique_filename, txt)
 
-        return JsonResponse({"works": "test"})
-
-
-
-
-
+        return JsonResponse( order_serializer.data )
 
 
 class ShopifyUserFiles( APIView):
