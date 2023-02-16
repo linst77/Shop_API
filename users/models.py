@@ -42,6 +42,7 @@ class OrderModel(models.Model):
     product_title = models.CharField(max_length=200, blank=True, null=True)
     product = models.ForeignKey( ProductType, on_delete=models.CASCADE, related_name="product_num", blank=True, null=True)
     order_number = models.CharField(max_length=200, blank=True, null=True)
+    shopify_order_id = models.CharField(max_length=200, blank=True, null=True)
     status = models.IntegerField( choices=STATUS_CHOICES, default=1)
 
     email = models.ForeignKey(UserVerifyModel, on_delete=models.CASCADE, related_name="OrderModel", blank=True, null=True)

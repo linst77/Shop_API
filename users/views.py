@@ -49,6 +49,8 @@ class OrderView( viewsets.ModelViewSet):
 
     @action(detail=False, methods=['POST'], url_path='create')
     def make_order( self, request):
+        print ("----------------------------------------")
+
         customer_data = request.data.get("customer")
         customer = UserVerifyModel.objects.get(email=customer_data.get("email"))
 
@@ -57,6 +59,7 @@ class OrderView( viewsets.ModelViewSet):
                         "product_title": None,
                         "product": None,
                         "order_number": request.data.get("order_number"),
+                        "shopify_order_id" : request.data.get("id"),
                         "status": 1,
                         "email": customer.id,
                         "phone": customer_data.get("phone"),
