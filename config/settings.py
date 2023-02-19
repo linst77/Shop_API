@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#ob0b#b2diimux&*r#tb5%8(ji9=p5o(^=7_z^ope%t144y@w^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'http://shop-api-front.s3-website.ap-northeast-2.amazonaws.com']
 
@@ -110,7 +110,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
+'''
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
@@ -121,11 +121,11 @@ DATABASES = {
        'PORT': '5432',
    }
 }
-
+'''
 
 
 # Local Postgres
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -136,7 +136,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-'''
+
 # Local SQLite
 '''
 DATABASES = {
