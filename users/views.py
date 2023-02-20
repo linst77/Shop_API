@@ -90,16 +90,6 @@ class OrderView( viewsets.ModelViewSet):
         else:
             return HttpResponse(status=404)
 
-    @action(detail=False, methods=['PUT'], url_path='create')
-    def make_order( self, request):
-
-        print (request.data)
-
-        object = OrderModel.objects.get( id = request.data.get('id'))
-        object.status = 8
-        object.save()
-        serializer = OrderModelSerializer(object)
-        return JsonResponse( serializer.data, safe=False)
 
 class ProfileView( viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -271,8 +261,15 @@ class ShopifyUserFiles( APIView):
         del (content, image_edited, ret, buf, image, image_nparray)
         return JsonResponse(serializer.data)
 
+class ShopifyOrderEdit(APIView):
 
+    def put(self, request):
+        object_order = OrderModel.objects.get( id = request.data.get('id'))
+        object_order.status = 8
+        object_order.save()
+        serializer = OrderModelSerializer(object_order)
 
+        return JsonResponse( serializer.data, safe=False)
 
 
 

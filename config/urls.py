@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.routers import DefaultRouter
-from users.views import UserVerifyView, ProfileView, OrderView, ShopifyView, ShopifyUserProfile, ShopifyUserFiles
+from users.views import UserVerifyView, ProfileView, OrderView, ShopifyView, ShopifyUserProfile, ShopifyUserFiles, ShopifyOrderEdit
 from setups.views import ProductTypeView
 from content.views import FileModelView, ContentModelView
 
@@ -28,6 +28,8 @@ urlpatterns = [
     path('shopify/', ShopifyView.as_view(), name='shopify_api'),
     path('shopify-profile/<int:pk>/', ShopifyUserProfile.as_view(), name="shopify-profile_api"),
     path('shopify-files/<int:pk>/<str:pk2>/', ShopifyUserFiles.as_view(), name="shopify-file_api"),
+    path('shopify-orderedit/', ShopifyOrderEdit.as_view(), name="shopify-order_api"),
+
 ]
 
 if settings.DEBUG:
