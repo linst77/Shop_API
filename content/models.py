@@ -15,15 +15,24 @@ def thumb_file_path(instance, filename):
     return os.path.join(f'images/{instance.email_id}/{instance.order_id}/thumb/thum_{filename}')
 
 # Create your models here.
+
+STATUS_CHOICES = (
+    (1, 'image'),
+    (2, 'video'),
+    (3, 'audio'),
+)
+
+
+
 class FileModel( models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     email = models.ForeignKey( UserVerifyModel, on_delete=models.CASCADE, related_name='file_user', blank=True, null=True)
     product = models.ForeignKey( ProductType, on_delete=models.PROTECT, related_name='file_product_type', blank=True, null=True)
     profile = models.ForeignKey( ProfileModel, on_delete=models.CASCADE, blank=True, null=True, related_name="file_profile")
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, blank=True, null=True, related_name="file_order")
-
     files = models.FileField( upload_to=file_path, null=True, blank=True)
     thumbnail = models.ImageField( upload_to=thumb_file_path, null=True, blank=True)
+    file_type = models.IntegerField( choices=STATUS_CHOICES, default=1)
     items = models.IntegerField(null=True, blank=True)
     orders = models.IntegerField(null=True, blank=True)
     counts = models.IntegerField(null=True, blank=True)

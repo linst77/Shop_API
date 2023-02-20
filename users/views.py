@@ -90,6 +90,16 @@ class OrderView( viewsets.ModelViewSet):
         else:
             return HttpResponse(status=404)
 
+    @action(detail=False, methods=['PUT'], url_path='create')
+    def make_order( self, request):
+
+        print (request.data)
+
+        object = OrderModel.objects.get( id = request.data.get('id'))
+        object.status = 8
+        object.save()
+        serializer = OrderModelSerializer(object)
+        return JsonResponse( serializer.data, safe=False)
 
 class ProfileView( viewsets.ModelViewSet):
     permission_classes = [AllowAny]

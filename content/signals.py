@@ -60,6 +60,7 @@ def update_model(sender, instance, created, **kwargs):
             for i in range(len( all_count)):
                 file_group = []
                 for j in range(all_count[i]):
+
                     file_group.append(FileModel(
                         files="images/temp/image_sample.jpg",
                         thumbnail="images/temp/thumb_sample.jpg",
@@ -75,7 +76,6 @@ def update_model(sender, instance, created, **kwargs):
                 ppp = FileModel.objects.bulk_create(file_group)
                 test = eval("content.photo_{}".format(i))
                 test.add(*ppp)
-
 
 
 @receiver(post_save, sender=ContentModel)
@@ -101,8 +101,9 @@ def update_content_model(sender, instance, created, **kwargs):
 
             if len(count) == 0:
                 product = ProductType.objects.get(id=profile.product_id)
-                all_items = product.items
                 all_count = json.loads(product.counts)
+                input_video_type = json.loads(product.input_video)
+                input_audio_type = json.loads(product.input_audio)
 
                 data = []
                 for x in range(len( all_count)):
@@ -123,16 +124,49 @@ def update_content_model(sender, instance, created, **kwargs):
                 for i in range(len( all_count)):
                     file_group = []
                     for j in range(all_count[i]):
-                        file_group.append(FileModel(
-                            files="images/temp/image_sample.jpg",
-                            thumbnail="images/temp/thumb_sample.jpg",
-                            email=email,
-                            product=product,
-                            profile=profile,
-                            order=order,
-                            items=i,
-                            orders=j,
-                            counts=j,
+                        file_model_temp = FileModel()
+
+
+                        if j in input_video_type[i]:
+                            file_group.append(FileModel(
+                                files="images/temp/movie_sample.jpg",
+                                thumbnail="images/temp/thumb_movie_sample.jpg",
+                                email=email,
+                                product=product,
+                                profile=profile,
+                                order=order,
+                                items=i,
+                                orders=j,
+                                counts=j,
+                                file_type=2
+                                )
+                            )
+                        elif j in input_audio_type[i]:
+                            file_group.append(FileModel(
+                                files="images/temp/audio_sample.jpg",
+                                thumbnail="images/temp/thumb_audio_sample.jpg",
+                                email=email,
+                                product=product,
+                                profile=profile,
+                                order=order,
+                                items=i,
+                                orders=j,
+                                counts=j,
+                                file_type=3
+                                )
+                            )
+                        else:
+                            file_group.append(FileModel(
+                                files="images/temp/image_sample.jpg",
+                                thumbnail="images/temp/thumb_sample.jpg",
+                                email=email,
+                                product=product,
+                                profile=profile,
+                                order=order,
+                                items=i,
+                                orders=j,
+                                counts=j,
+                                file_type=1
                         ))
                     ppp = FileModel.objects.bulk_create(file_group)
                     test = eval("content.photo_{}".format(i))

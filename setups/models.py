@@ -1,6 +1,11 @@
 from django.db import models
 
 
+
+
+
+
+
 class ProductType( models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     product_title = models.CharField(max_length=200, blank=True, null=True)
@@ -9,6 +14,9 @@ class ProductType( models.Model):
     items = models.IntegerField(blank=True, null=True)
     counts = models.CharField( max_length=200, blank=True, null=True)
     input_box = models.CharField( max_length=200, blank=True, null=True)
+    input_video = models.CharField( max_length=200, blank=True, null=True)
+    input_audio = models.CharField( max_length=200, blank=True, null=True)
+
     description_index = models.CharField( max_length=300, blank=True, null=True)
     content_text = models.TextField(blank=True, null=True)
     front_content_text = models.CharField( max_length=200, blank=True, null=True)
