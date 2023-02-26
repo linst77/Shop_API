@@ -26,6 +26,7 @@ STATUS_CHOICES = (
 
 class FileModel( models.Model):
     id = models.AutoField(primary_key=True, editable=False)
+    status = models.BooleanField( default=False)
     email = models.ForeignKey( UserVerifyModel, on_delete=models.CASCADE, related_name='file_user', blank=True, null=True)
     product = models.ForeignKey( ProductType, on_delete=models.PROTECT, related_name='file_product_type', blank=True, null=True)
     profile = models.ForeignKey( ProfileModel, on_delete=models.CASCADE, blank=True, null=True, related_name="file_profile")
@@ -36,6 +37,8 @@ class FileModel( models.Model):
     items = models.IntegerField(null=True, blank=True)
     orders = models.IntegerField(null=True, blank=True)
     counts = models.IntegerField(null=True, blank=True)
+    extra = models.TextField()
+
 
     def __str__(self):
         return str( self.product)
@@ -50,6 +53,10 @@ class FileModel( models.Model):
         elif _extention in [".mp3", ".wav", ".ogg"]:
             print( "works")
             self.files = self.files
+            os.path.splitext(self.files.name)[0] + ".jpg"
+            thumb = self.files
+            thumb.name = "test.jpg"
+            self.thumbnail = thumb
         else:
             self.files = de_alpha( self.files)
             self.thumbnail = de_thumb( self.files)
