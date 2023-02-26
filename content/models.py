@@ -37,7 +37,7 @@ class FileModel( models.Model):
     items = models.IntegerField(null=True, blank=True)
     orders = models.IntegerField(null=True, blank=True)
     counts = models.IntegerField(null=True, blank=True)
-    extra = models.TextField()
+    extra = models.TextField(null=True, blank=True)
 
 
     def __str__(self):
