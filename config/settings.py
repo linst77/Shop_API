@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#ob0b#b2diimux&*r#tb5%8(ji9=p5o(^=7_z^ope%t144y@w^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*', 'http://shop-api-front.s3-website.ap-northeast-2.amazonaws.com']
 
