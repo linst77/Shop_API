@@ -43,8 +43,13 @@ class FileModel( models.Model):
     def save(self, *args, **kwargs):
         size_wh = (200, 112)
         # Original Image
+        _file, _extention = os.path.splitext(str(self.files))
+
         if not self.files:
             return None
+        elif _extention in [".mp3", ".wav", ".ogg"]:
+            print( "works")
+            self.files = self.files
         else:
             self.files = de_alpha( self.files)
             self.thumbnail = de_thumb( self.files)
