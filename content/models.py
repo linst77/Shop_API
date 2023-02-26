@@ -52,9 +52,9 @@ class FileModel( models.Model):
             return None
         elif _extention in [".mp3", ".wav", ".ogg"]:
             self.files = self.files
-            thumb = self.files
-            thumb.name = r"images/temp/thumb_movie_sample.jpg"
-            self.thumbnail = thumb
+            # thumb = self.files
+            # thumb.name = r"images/temp/thumb_movie_sample.jpg"
+            # self.thumbnail = thumb
         else:
             self.files = de_alpha( self.files)
             self.thumbnail = de_thumb( self.files)
