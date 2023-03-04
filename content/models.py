@@ -5,6 +5,8 @@ import os
 from .image_detact import de_alpha, de_thumb
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.files.base import ContentFile, File
+from django.conf import settings
 # Create your models here.
 
 # Create your models here.
@@ -52,9 +54,6 @@ class FileModel( models.Model):
             return None
         elif _extention in [".mp3", ".wav", ".ogg"]:
             self.files = self.files
-            # thumb = self.files
-            # thumb.name = r"images/temp/thumb_movie_sample.jpg"
-            # self.thumbnail = thumb
         elif _extention in [".mp4", ".mov", ".MOV"]:
             self.files = self.files
         else:
